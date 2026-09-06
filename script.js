@@ -160,6 +160,46 @@ async function searchMovies(name, page=1) {
     }
 }
 
+async function showMovieDetails(movieId) {
+    openModal()
+    modalBody.innerHTML = `<p class="status">Завантаження...</p>`
+    try{
+        const url = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=uk-UA`
+        const response = await fetch(url)
+        const movie = await response.json()
+        renderMovieDetails(movie)
+    }catch(error){
+        modalBody.innerHTML = `<p class="status">Не вдалось завантажити</p>`
+    }
+}
+
+function renderMovieDetails(movie){
+    const year = movie.release_date ? movie.release_date.slice(0, 4) : 'Рік невідомий'
+    const poster = movie.poster_path ? `${IMG_BASE}${movie.poster_path}` : IMG_PLACEHOLDER
+    const rating = movie.vote_average ? movie.vote_average.toFixed(1) : '--'
+    const genres = movie.genres.length > 0 ? movie.genres.map((g)=> g.name).join(', ') : 'Не вказано'
+    const overview = movie.overview ? movie.overview : 'Опис українською недоступний'
+
+    const inList = isInWatchList(movie.id)
+    modalBody.innerHTML = `
+        <div class="details">
+            <img src="${poster}" class="details_poster"/>
+            <div class="details__info">
+                <h2 class="details__title">${movie.title}</h2>
+                <p class="details__overview">${overview}</p>
+                <p class="details__genres">Жанри: ${genres}</p>
+                <p class="details__year">Рік виходу: ${year}</p>
+                <div class="details__meta">
+                    <span>${rating} (${movie.vote_count} голосів)</span>
+                    <span>${rating}</span>
+                    <span>${Math.floor(movie.runtime/60)} годин ${movie.runtime % 60} хвилин</span>
+                </div>
+                <button class="btn-watchlist btn--watchlist--modal" data-id="${movie.id}">${inList ? 'У списку' : 'Хочу подивитись'}</button>
+            </div>
+        </div>
+    `
+}
+
 form.addEventListener('submit', (e)=>{
     e.preventDefault()
     if(!input.value.trim()){
@@ -172,22 +212,30 @@ form.addEventListener('submit', (e)=>{
 
 container.addEventListener('click', (e) => {
     const btn = e.target.closest('.btn-watchlist')
-    if (!btn) return 
+    if (btn){
+        const card = btn.closest('.movie-card')
+        const movieId = +card.dataset.id
+        const movie = currentMovies.find((m)=> m.id == movieId) || watchlist.find((m)=> m.id === movieId)
+        if (!movie) return
+        toggleWatchlist(movie)
+        if (curretMode == 'watchlist'){
+            renderMovies(watchlist)
+        }else{
+            renderMovies(currentMovies)
+        }
+        updateCounter()
+        return
+    }
 
-    const card = btn.closest('.movie-card')
-    const movieId = +card.dataset.id
-    const movie = currentMovies.find((m)=> m.id == movieId) || watchlist.find((m)=> m.id === movieId)
-    if (!movie) return
+    const card = e.target.closest('.movie-card')
+    if(!card) return
 
-    toggleWatchlist(movie)
+    showMovieDetails(+card.dataset.id)
+
+    
     
 
-    if (curretMode == 'watchlist'){
-        renderMovies(watchlist)
-    }else{
-        renderMovies(currentMovies)
-    }
-    updateCounter()
+    
 })
 
 toggleBtn.addEventListener('click',()=>{
@@ -226,6 +274,26 @@ modalOverplay.addEventListener('click', closeModal)
 document.addEventListener('keydown', (e)=>{
     if(e.key == 'Escape'){
         closeModal()
+    }
+})
+
+modalBody.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.btn-watchlist')
+    console.log(btn);
+    
+    if (btn){
+        const movieId = +btn.dataset.id
+        const movie = currentMovies.find((m)=> m.id == movieId) || watchlist.find((m)=> m.id === movieId)
+        if (!movie) return
+        toggleWatchlist(movie)
+        btn.innerHTML = isInWatchList(movieId) ? 'У списку' : 'Хочу подивитись'
+        if (curretMode == 'watchlist'){
+            renderMovies(watchlist)
+        }else{
+            renderMovies(currentMovies)
+        }
+        updateCounter()
+        return
     }
 })
 
