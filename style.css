@@ -1,21 +1,317 @@
-.movies-grid{
+
+
+
+
+/* =========================
+   ОСНОВНІ НАЛАШТУВАННЯ
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #0b0b0b;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    width: 100%;
+    min-height: 80px;
+    padding: 15px 40px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    background: #120000;
+    border-bottom: 2px solid #720000;
+    box-shadow: 0 4px 20px rgba(100, 0, 0, 0.4);
+}
+
+.header_logo {
+    margin: 0;
+    color: #e00000;
+    font-size: 28px;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    text-shadow: 0 0 10px rgba(224, 0, 0, 0.4);
+}
+
+/* =========================
+   ПОШУК
+========================= */
+
+.search-form {
+    flex: 1;
+    display: flex;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.search-input {
+    flex: 1;
+    padding: 13px 17px;
+    border: 1px solid #520000;
+    border-right: none;
+    border-radius: 7px 0 0 7px;
+    outline: none;
+    background: #1a1a1a;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.search-input::placeholder {
+    color: #888888;
+}
+
+.search-input:focus {
+    border-color: #a00000;
+    box-shadow: 0 0 8px rgba(160, 0, 0, 0.3);
+}
+
+.search-btn {
+    padding: 13px 24px;
+    border: none;
+    border-radius: 0 7px 7px 0;
+    background: #8b0000;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.search-btn:hover {
+    background: #b00000;
+}
+
+/* =========================
+   КНОПКА "МІЙ СПИСОК"
+========================= */
+
+.header__controls {
+    display: flex;
     align-items: center;
 }
 
-.movie-card{
+.btn-watchlist-toggle {
+    padding: 12px 18px;
+    border: 1px solid #8b0000;
+    border-radius: 7px;
+    background: #6d0000;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-watchlist-toggle:hover {
+    background: #a00000;
+    box-shadow: 0 0 12px rgba(160, 0, 0, 0.4);
+}
+
+.btn-watchlist-toggle-active {
+    background: #a00000;
+}
+
+.counter {
+    display: inline-block;
+    min-width: 22px;
+    padding: 2px 6px;
+    margin-left: 5px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #800000;
+    font-size: 12px;
+}
+
+/* =========================
+   ОСНОВНА ЧАСТИНА
+========================= */
+
+.main {
+    min-height: calc(100vh - 80px);
+    padding: 35px 20px;
+    background:
+        radial-gradient(
+            circle at top,
+            #250000 0%,
+            #0b0b0b 45%
+        );
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-title {
+    margin: 0 0 30px;
+    padding-left: 15px;
+    border-left: 5px solid #a00000;
+    color: #ffffff;
+    font-size: 28px;
+}
+
+/* =========================
+   КАРТКИ ФІЛЬМІВ
+========================= */
+
+.movies-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.movie-card {
     width: 20%;
-    padding: 10px;
+    min-width: 190px;
+    max-width: 240px;
+    padding: 12px;
+    background: #161616;
+    border: 1px solid #3d0000;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.movie-card__poster{
+.movie-card:hover {
+    transform: translateY(-7px);
+    background: #1f1010;
+    border-color: #a00000;
+    box-shadow: 0 10px 25px rgba(140, 0, 0, 0.35);
+}
+
+.movie-card__poster {
     width: 100%;
+    height: 330px;
+    object-fit: cover;
+    display: block;
+    border-radius: 7px;
 }
 
-.modal{
+.movie-card__title {
+    margin: 12px 0 5px;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1.3;
+}
+
+.movie-card__year {
+    margin: 5px 0;
+    color: #999999;
+    font-size: 14px;
+}
+
+.movie-card__rating {
+    display: inline-block;
+    margin: 5px 0 12px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: #420000;
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+/* =========================
+   КНОПКА ДОДАВАННЯ У СПИСОК
+========================= */
+
+.btn-watchlist {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #800000;
+    border-radius: 6px;
+    background: #650000;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-watchlist:hover {
+    background: #a00000;
+}
+
+.btn-watchlist--active {
+    background: #2b2b2b;
+    border-color: #555555;
+    color: #dddddd;
+}
+
+.btn-watchlist--active:hover {
+    background: #3a3a3a;
+}
+
+/* =========================
+   ПАГІНАЦІЯ
+========================= */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 40px 0 20px;
+}
+
+.page-btn {
+    padding: 10px 20px;
+    border: 1px solid #800000;
+    border-radius: 6px;
+    background: #650000;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #a00000;
+}
+
+.page-btn:disabled {
+    background: #242424;
+    border-color: #333333;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+.page-info {
+    color: #cccccc;
+    font-weight: bold;
+}
+
+/* =========================
+   СТАТУСИ
+========================= */
+
+.status {
+    width: 100%;
+    text-align: center;
+    padding: 50px 20px;
+    color: #bbbbbb;
+    font-size: 18px;
+}
+
+.status--error {
+    color: #ff4444;
+}
+
+/* =========================
+   МОДАЛЬНЕ ВІКНО
+========================= */
+
+.modal {
     position: fixed;
     inset: 0;
     display: flex;
@@ -24,30 +320,208 @@
     z-index: 100;
 }
 
-.modal__overlay{
+.modal__overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.589);
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(4px);
 }
 
-.modal__content{
+.modal__content {
     z-index: 1;
     position: relative;
-    max-width: 700px;
     width: 90%;
-    max-width: 85vh;
+    max-width: 850px;
+    max-height: 85vh;
     overflow-y: auto;
-    background: rgb(71, 71, 71);
-    border-radius: 10px;
-    padding: 24px;
+    background: #171717;
+    border: 1px solid #800000;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 0 40px rgba(120, 0, 0, 0.5);
 }
 
-.modal__close{
+.modal__close {
     position: absolute;
     top: 12px;
     right: 12px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    background: #800000;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.hidden{
+.modal__close:hover {
+    background: #c00000;
+}
+
+/* =========================
+   ДЕТАЛІ ФІЛЬМУ
+========================= */
+
+.details {
+    display: flex;
+    gap: 30px;
+}
+
+.details_poster {
+    width: 280px;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+}
+
+.details__info {
+    flex: 1;
+}
+
+.details__title {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    color: #ff3333;
+    font-size: 28px;
+}
+
+.details__overview {
+    color: #dddddd;
+    line-height: 1.6;
+}
+
+.details__genres,
+.details__year {
+    color: #aaaaaa;
+    line-height: 1.5;
+}
+
+.details__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.details__meta span {
+    padding: 7px 10px;
+    border-radius: 5px;
+    background: #350000;
+    color: #ff5555;
+}
+
+.btn--watchlist--modal {
+    width: auto;
+    padding: 12px 20px;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0b0b0b;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #650000;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a00000;
+}
+
+/* =========================
+   АДАПТИВНІСТЬ
+========================= */
+
+@media (max-width: 1000px) {
+    .header {
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    .header_logo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .search-form {
+        order: 2;
+        width: 100%;
+    }
+
+    .header__controls {
+        order: 3;
+        margin: 0 auto;
+    }
+
+    .movie-card {
+        width: 28%;
+    }
+}
+
+@media (max-width: 700px) {
+    .main {
+        padding: 25px 10px;
+    }
+
+    .movie-card {
+        width: 44%;
+        min-width: 150px;
+    }
+
+    .movie-card__poster {
+        height: 250px;
+    }
+
+    .section-title {
+        font-size: 23px;
+    }
+
+    .details {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .details_poster {
+        width: 220px;
+        height: 330px;
+    }
+
+    .details__info {
+        width: 100%;
+    }
+}
+
+@media (max-width: 450px) {
+    .movie-card {
+        width: 90%;
+        max-width: 250px;
+    }
+
+    .header {
+        gap: 15px;
+    }
+
+    .search-btn {
+        padding: 13px 15px;
+    }
+}
+
+/* =========================
+   HIDDEN
+========================= */
+
+.hidden {
     display: none;
 }
